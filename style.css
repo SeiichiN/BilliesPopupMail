@@ -1,0 +1,80 @@
+@charset "utf-8";
+
+/************ 初期設定 *********************/
+img {
+  max-width: 100%;
+}
+
+/************ pupup-mail ************************/
+#popup-mail-button {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  width: 70px;
+  z-index: 10001;
+}
+
+#popup-mail-form {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 95%;
+  padding: 10px;
+  background-color: #009245;
+  z-index: 10002
+}
+
+#popup-mail-form p {
+  margin-bottom: 10px;
+}
+
+#popup-mail-form label {
+  color: #fff;
+}
+
+#name, #email, #comment {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#comment {
+  height: 200px;
+}
+
+#okuru {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+}
+
+#closeButton {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  background-color: #444;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-top: -25px;
+}
+
+@media screen and (min-width: 768px) {
+  #popup-mail-button {
+    left: 20px;
+    bottom: 20px;
+    width: 80px;
+    z-index: 10001;
+  }
+
+  #popup-mail-form {
+    left: 20px;
+    bottom: 20px;
+    width: 400px;
+    padding: 10px;
+    background-color: #009245;
+    z-index: 10002
+  }
+
+}
