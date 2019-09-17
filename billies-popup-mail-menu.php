@@ -22,6 +22,7 @@ function billies_popup_mail_admins_page() {
         $mdata['port'] = stripslashes($_POST['get_port']);
         $mdata['account'] = stripslashes($_POST['get_account']);
         $mdata['passwd'] = stripslashes($_POST['get_passwd']);
+        $mdata['toAddress'] = stripslashes($_POST['get_toAddress']);
         $mdata['fromName'] = stripslashes($_POST['get_fromName']);
         $mdata['fromAddress'] = !empty($_POST['get_fromAddress']) ? stripslashes($_POST['get_fromAddress']) : "";
 
@@ -50,6 +51,10 @@ function billies_popup_mail_admins_page() {
         </p>
         <p>
             パスワード<input type="password" name="get_passwd" value="<?php echo esc_attr($mdata['passwd']); ?>" required>*必須
+        </p>
+        <p>
+            送信先アドレスを指定します。このアドレスにメールが届きます。<br>
+            送信先アドレス<input type="email" name="get_toAddress" value="<?php echo esc_attr($mdata['toAddress']); ?>" required>*必須
         </p>
         <p>
             送られるメールに表示される差出人指名を指定します。<br>

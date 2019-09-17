@@ -22,17 +22,21 @@ use PHPMailer\PHPMailer\PHPMailer;
  *         boolean TRUE.
  *       
  */
-function billies_popup_mail_gmail($subject, $body, $to, $reply) {
+function billies_popup_mail_gmail($subject, $body, $reply) {
 
   $mdata = get_option('billies_popup_mailconf');
 
+  /*
   foreach ($mdata as $key => $value) {
-    echo $key, ' => ', $value, "\n";
+    echo $key, ' => ', $value, "<br>\n";
   }
-
+  echo($_SERVER['HTTP_REFERER']), "<br>\n";
+   */
+  
 
   $from = $mdata['account'];
   $pass = $mdata['passwd'];
+  $to = $mdata['toAddress'];
   if (!empty($mdata['fromAddress'])) $reply = $mdata['fromAddress'];
   
   $mail = new PHPMailer();
@@ -78,13 +82,15 @@ if (!empty($_POST['name'])
   $body = "お名前：" . billies_popup_mail_w($_POST['name']) . "\n";
   $body = $body . "メールアドレス：" . $reply . "\n";
   $body = $body . "コメント：\n" . billies_popup_mail_w($_POST['comment']) . "\n";
-  $to = "billie175@gmail.com";
 
-  if (billies_popup_mail_gmail($subject, $body, $to, $reply)) {
-    echo "<script>alert('メールを送信しました')</script>";
+  if (billies_popup_mail_gmail($subject, $body, $reply)) {
+    // echo "<script>alert('メールを送信しました')</script>";
   } else {
-    echo "<script>alert('メールの送信に失敗しました')</script>";
+    // echo "<script>alert('メールの送信に失敗しました')</script>";
   }
+
+  header("Location: " . $_SERVER['HTTP_REFERER']) ;
+  exit;
 }
 
 

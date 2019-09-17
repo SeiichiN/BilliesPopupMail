@@ -181,20 +181,15 @@
   var createForm = function () {
     var html, closeBtn, msgEle;
     
-    // html = '<form>'   // '<form action="mail.cgi" method="POST">'
     html = ''
          + '<p><label for="name">お名前：</label><input type="text" name="name" id="name"></p>'
          + '<p><label for="email">メールアドレス：</label><input type="email" name="email" id="email"></p>'
          + '<p><label for="comment">内容：</label><textarea name="comment" id="comment"></textarea></p>'
          + '<p><input type="submit" value="送る" id="okuru"></p>';
-    //      + '</form>';
 
     formEle = document.createElement('form');
-    formEle.setAttribute('method', 'post');
-    formEle.setAttribute(
-      'action', ''
-      // myScript.pluginsUrl + '/billies-popup-mail/billies-popup-mail-send.php'
-    );
+    formEle.setAttribute( 'method', 'post' );
+    formEle.setAttribute( 'action', '' );
     formEle.innerHTML = html;
 
     msgEle = document.createElement('p');
