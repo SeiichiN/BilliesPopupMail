@@ -192,8 +192,8 @@
     formEle = document.createElement('form');
     formEle.setAttribute('method', 'post');
     formEle.setAttribute(
-      'action',
-      myScript.pluginsUrl + '/billies-popup-mail/billies-popup-mail.php'
+      'action', ''
+      // myScript.pluginsUrl + '/billies-popup-mail/billies-popup-mail-send.php'
     );
     formEle.innerHTML = html;
 

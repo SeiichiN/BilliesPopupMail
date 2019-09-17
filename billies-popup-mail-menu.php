@@ -13,7 +13,7 @@ add_action('admin_menu', 'billies_popup_mail_menu');
 
 function billies_popup_mail_admins_page() {
     $mdata = array();
-    add_option('billies_mailconf', $mdata);
+    add_option('billies_popup_mailconf', $mdata);
 
     // 管理画面からのPOSTであるか、チェック
     // 引数は <form>の wp_nonce_field と同じにしておく。
@@ -25,9 +25,9 @@ function billies_popup_mail_admins_page() {
         $mdata['fromName'] = stripslashes($_POST['get_fromName']);
         $mdata['fromAddress'] = !empty($_POST['get_fromAddress']) ? stripslashes($_POST['get_fromAddress']) : "";
 
-        update_option('billies_mailconf', $mdata);
+        update_option('billies_popup_mailconf', $mdata);
     } else {
-        $mdata = get_option('billies_mailconf');
+        $mdata = get_option('billies_popup_mailconf');
     }
 ?>
 <div class="wrap">
