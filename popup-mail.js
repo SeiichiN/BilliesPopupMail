@@ -61,15 +61,23 @@
     mail_btn.appendChild(image);
     body[0].appendChild(mail_btn);
 
-	  msgArea = document.createElement('div');
-	  msgArea.setAttribute('id', 'messageArea');
-	  body[0].appendChild(msgArea);
+	msgArea = document.createElement('div');
+	msgArea.setAttribute('id', 'messageArea');
+    msgArea.setAttribute('class', 'fadeout');
+	body[0].appendChild(msgArea);
 
-	  message = getQueryString();
-	  if (message !== null) {
-		  msgArea.textContent = message['msg'];
-		  msgArea.setAttribute('style', 'color:green; font-weight:bold;');
-	  }
+	message = getQueryString();
+	if (message !== null) {
+		msgArea.textContent = message['msg'];
+		msgArea.setAttribute(
+          'style',
+          'color:green; font-weight:bold; background-color:#fff; padding: 2px 10px;'
+        );
+	}
+
+    setTimeout( function () {
+      msgArea.setAttribute('style', 'display:none');
+    }, 3000);
   };
 
   // ============= フォームの作成 ===================

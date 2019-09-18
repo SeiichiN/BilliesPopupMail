@@ -5,6 +5,19 @@ img {
   max-width: 100%;
 }
 
+.fadeout {
+  animation: fadeOut 3s;
+  animation-fill-mode: both;
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /************ pupup-mail ************************/
 #popup-mail-button {
   position: fixed;
