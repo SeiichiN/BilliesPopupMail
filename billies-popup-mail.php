@@ -84,12 +84,13 @@ if (!empty($_POST['name'])
   $body = $body . "コメント：\n" . billies_popup_mail_w($_POST['comment']) . "\n";
 
   if (billies_popup_mail_gmail($subject, $body, $reply)) {
-    // echo "<script>alert('メールを送信しました')</script>";
+	   $msg = 'メールを送信しました';
   } else {
-    // echo "<script>alert('メールの送信に失敗しました')</script>";
+	  $msg = 'メールの送信に失敗しました';
   }
+  $msgData = urlencode($msg);
 
-  header("Location: " . $_SERVER['HTTP_REFERER']) ;
+  header("Location: " . $_SERVER['HTTP_REFERER'] . "?msg=" . $msgData) ;
   exit;
 }
 

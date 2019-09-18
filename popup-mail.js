@@ -21,15 +21,37 @@
     });
   };
 
+	var getQueryString = function () {
+		var query, parameters, i, element, paramKey, paramValue,
+			result = {};
+
+		if (1 < document.location.search.length) {
+			// 最初の1文字(?)を除いた文字列を取得
+			query = document.location.search.substring(1);
+			parameters = query.split('&');
+
+			for ( i = 0; i < parameters.length; i++) {
+				element = parameters[i].split('=');
+				paramKey = decodeURIComponent(element[0]);
+				paramValue = decodeURIComponent(element[1]);
+				result[paramKey] = paramValue;
+			}
+			return result;
+		}
+		return null;
+	};
+
   // メールボタンの作成
   // <button id="popup-mail-button>
   //   <img src="mail.svg" alt="メールを送る">
   // </button>
   // bodyの子要素とする
   var setupButton = function () {
+	  var image, message, msgArea;
+
     body = document.getElementsByTagName('body');
     mail_btn = document.createElement('button');
-    var image = document.createElement('img');
+    image = document.createElement('img');
 
     mail_btn.setAttribute('id', 'popup-mail-button');
     
@@ -38,6 +60,16 @@
     
     mail_btn.appendChild(image);
     body[0].appendChild(mail_btn);
+
+	  msgArea = document.createElement('div');
+	  msgArea.setAttribute('id', 'messageArea');
+	  body[0].appendChild(msgArea);
+
+	  message = getQueryString();
+	  if (message !== null) {
+		  msgArea.textContent = message['msg'];
+		  msgArea.setAttribute('style', 'color:green; font-weight:bold;');
+	  }
   };
 
   // ============= フォームの作成 ===================
@@ -157,16 +189,20 @@
     nameData = htmlEscape( formEle['name'].value );
     emailData = htmlEscape( formEle['email'].value );
     commentData = htmlEscape( formEle['comment'].value );
-    /* console.log('-----------');
-     * console.log(nameData);
-     * console.log(emailData);
-     * console.log(commentData);*/
+
+    console.log('-----------');
+    console.log(nameData);
+    console.log(emailData);
+    console.log(commentData);
+    console.log('-----------');
+
     if ((checkUndefNull( nameData ))
         && (checkUndefNull( emailData ))
         && (checkUndefNull( commentData ))) {
       myValidate();
     } else {
-      okuruBtn.setAttribute('disabled', true);
+		console.log('OUT!');
+      okuruBtn.setAttribute('disabled', 'disabled');
     }
   };
 
@@ -228,7 +264,7 @@
     closeBtn.addEventListener('click', closeForm, false);
 
     okuruBtn = document.getElementById('okuru');
-    okuruBtn.setAttribute('disabled', true);     // 送るボタンは、初期設定では非表示にしておく
+    okuruBtn.setAttribute('disabled', 'disabled');     // 送るボタンは、初期設定では非表示にしておく
     // 送るボタンをクリックすると、checkForm関数が呼び出される
     // okuruBtn.addEventListener('click', checkForm, false);
   };

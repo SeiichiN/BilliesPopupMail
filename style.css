@@ -7,16 +7,19 @@ img {
 
 /************ pupup-mail ************************/
 #popup-mail-button {
-  position: absolute;
+  position: fixed;
   left: 10px;
   bottom: 10px;
   cursor: pointer;
   width: 70px;
   z-index: 10001;
+  background-color: #fff;
+  padding: 0;
+  line-height: 1em;
 }
 
 #popup-mail-form {
-  position: absolute;
+  position: fixed;
   left: 10px;
   bottom: 10px;
   width: 95%;
@@ -43,10 +46,13 @@ img {
   height: 200px;
 }
 
+
 #okuru {
   width: 100px;
   height: 30px;
   cursor: pointer;
+  line-height: 1.8;
+  padding: 0;
 }
 
 #closeButton {
@@ -58,6 +64,12 @@ img {
   padding: 5px 10px;
   cursor: pointer;
   margin-top: -25px;
+}
+
+#messageArea {
+	position: fixed;
+	left: 120px;
+	bottom: 10px;
 }
 
 @media screen and (min-width: 768px) {
