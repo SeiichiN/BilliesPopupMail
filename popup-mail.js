@@ -63,7 +63,6 @@
 
 	msgArea = document.createElement('div');
 	msgArea.setAttribute('id', 'messageArea');
-    msgArea.setAttribute('class', 'fadeout');
 	body[0].appendChild(msgArea);
 
 	message = getQueryString();
@@ -76,7 +75,7 @@
 	}
 
     setTimeout( function () {
-      msgArea.setAttribute('style', 'display:none');
+		msgArea.setAttribute('class', 'fadeout');
     }, 3000);
   };
 
