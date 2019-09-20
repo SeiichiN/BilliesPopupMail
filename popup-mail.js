@@ -65,6 +65,11 @@
 	msgArea.setAttribute('id', 'messageArea');
 	body[0].appendChild(msgArea);
 
+	  // クッキーからメール送信の結果を受け取る
+	  var messageArray = document.cookie;
+	  console.log( messageArray );
+	
+	  // urlからクエリ文字列を取得する -- メール送信の結果を受け取る
 	message = getQueryString();
 	if (message !== null) {
 		msgArea.textContent = message['msg'];
@@ -80,20 +85,6 @@
   };
 
   // ============= フォームの作成 ===================
-
-  // submitボタンを押したときの処理
-  var checkForm = function () {
-    console.log(formDiv);
-    var nameArea = formDiv.firstChild[0].value;
-    console.log('nameArea:');
-    console.log(nameArea);
-    if (nameArea === '') {
-      console.log( 'お名前が未入力です');
-      // nameArea.setAttribute('style', 'color:red');
-    } else {
-      console.log('OK');
-    }
-  };
 
   // ========== フォームのバルーン =============================
   // バルーンをプロトタイプからインスタンスを作成する
@@ -221,6 +212,13 @@
   };
   
   // =============== お問い合わせフォーム =======================================
+	
+  // submitボタンを押したときの処理
+  var checkForm = function () {
+	  formEle.submit();
+  };
+
+  //	お問い合わせフォームの作成
   var createForm = function () {
     var html, closeBtn, msgEle;
     
@@ -273,7 +271,7 @@
     okuruBtn = document.getElementById('okuru');
     okuruBtn.setAttribute('disabled', 'disabled');     // 送るボタンは、初期設定では非表示にしておく
     // 送るボタンをクリックすると、checkForm関数が呼び出される
-    // okuruBtn.addEventListener('click', checkForm, false);
+    okuruBtn.addEventListener('click', checkForm, false);
   };
 
   var closeForm = function () {
