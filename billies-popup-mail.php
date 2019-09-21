@@ -89,9 +89,9 @@ if (!empty($_POST['name'])
 	  $msg = 'メールの送信に失敗しました';
   }
   $msgData = urlencode($msg);
-  setcookie('mail_result', $msg);
+  setcookie('mail_result', $msg, time()+10);
 
-  header("Location: " . $_SERVER['HTTP_REFERER'] . "?msg=" . $msgData) ;
+  header("Location: " . $_SERVER['HTTP_REFERER']) ;
   exit;
 }
 

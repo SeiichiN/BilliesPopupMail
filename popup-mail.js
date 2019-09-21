@@ -41,22 +41,45 @@
 		return null;
 	};
 
+  // クッキーからキーと値を連想配列で受け取る
+  // (参考) https://javascript.programmer-reference.com/js-document-cookie-get/
+  var getCookieArray = function () {
+    var arr = {},
+        tmp, data, i;
+
+    if (document.cookie !== '') {
+      tmp = document.cookie.split('; ');  // ';' ではない。スペースが必要
+      for (i = 0; i < tmp.length; i++) {
+        data = tmp[i].split('=');
+        arr[data[0]] = decodeURIComponent(data[1]);
+      }
+    }
+    return arr;
+  };
+
   // メールボタンの作成
   // <button id="popup-mail-button>
   //   <img src="mail.svg" alt="メールを送る">
   // </button>
   // bodyの子要素とする
   var setupButton = function () {
-	  var image, message, msgArea;
+	var image, message, msgArea,
+        cookieArr = {};
 
     body = document.getElementsByTagName('body');
     mail_btn = document.createElement('button');
-    image = document.createElement('img');
 
-    mail_btn.setAttribute('id', 'popup-mail-button');
+    // image = document.createElement('i');       // fontAwesome
+    image = document.createElement('img');  // image
+
+    mail_btn.setAttribute('id', 'popup-mail-button');   // どちらでも必要
+    // image.setAttribute('class', 'fas fa-envelope');     // fontAwesome
     
-    image.setAttribute('src', myScript.pluginsUrl + '/billies-popup-mail/mail.svg');
-    image.setAttribute('alt', 'メールを送る');
+    image.setAttribute(
+      'src',
+      myScript.pluginsUrl + '/billies-popup-mail/mail_icon.png'
+    );
+    image.setAttribute('alt', 'メールを送る');     // image
     
     mail_btn.appendChild(image);
     body[0].appendChild(mail_btn);
@@ -65,17 +88,19 @@
 	msgArea.setAttribute('id', 'messageArea');
 	body[0].appendChild(msgArea);
 
-	  // クッキーからメール送信の結果を受け取る
-	  var messageArray = document.cookie;
-	  console.log( messageArray );
+	// クッキーからメール送信の結果を受け取る
+    cookieArr = getCookieArray();
+    message = cookieArr['mail_result'];
 	
-	  // urlからクエリ文字列を取得する -- メール送信の結果を受け取る
-	message = getQueryString();
 	if (message !== null) {
-		msgArea.textContent = message['msg'];
+		msgArea.textContent = message;
 		msgArea.setAttribute(
           'style',
-          'color:green; font-weight:bold; background-color:#fff; padding: 2px 10px;'
+          'color:green;'
+          + 'font-weight:bold;'
+          + 'background-color:#fff;'
+          + 'padding: 2px 10px;'
+          + 'opacity:0.7'
         );
 	}
 
@@ -84,7 +109,7 @@
     }, 3000);
   };
 
-  // ============= フォームの作成 ===================
+  // ##################### フォームの作成 ##########################
 
   // ========== フォームのバルーン =============================
   // バルーンをプロトタイプからインスタンスを作成する
@@ -96,14 +121,14 @@
   //         msg  -- validationMessage を受け取る
   // 
   var formBalloon = function (name, msg) {
-    // var clientRect = ele.getBoundingClientRect();  // 画面での位置
-    var rect = getEleRect( formEle[name] );
-    var x = (rect.x + 100).toString() + 'px';  // フォーム要素の左端 + 100px
-    var y = (rect.y - 20).toString() + 'px';   // フォーム要素の上端 - 20px
+    var rect, x, y, balloon;
+
+    rect = getEleRect( formEle[name] );
+    x = (rect.x + 100).toString() + 'px';  // フォーム要素の左端 + 100px
+    y = (rect.y - 20).toString() + 'px';   // フォーム要素の上端 - 20px
     
-    var balloon = document.createElement('div');
-    // formEle.setAttribute('style', 'position: relative');
-    balloon.setAttribute('class', 'balloon');
+    balloon = document.createElement('div');
+        balloon.setAttribute('class', 'balloon');
     balloon.setAttribute(
       'style',
       'position:fixed; border:solid 1px #f00; background-color:rgba(255,255,255,1); color:red;'
@@ -147,7 +172,7 @@
       deleteBalloon();
     }
 
-    
+    // 入力チェック
     // ================= type="text" ===================
     // 30文字以内か
     if (nameData.length > 30) {
@@ -187,12 +212,6 @@
     nameData = htmlEscape( formEle['name'].value );
     emailData = htmlEscape( formEle['email'].value );
     commentData = htmlEscape( formEle['comment'].value );
-
-    console.log('-----------');
-    console.log(nameData);
-    console.log(emailData);
-    console.log(commentData);
-    console.log('-----------');
 
     if ((checkUndefNull( nameData ))
         && (checkUndefNull( emailData ))
@@ -252,11 +271,6 @@
     formEle['name'].value = (checkUndefNull( nameData)) ? nameData : '';
     formEle['email'].value = (checkUndefNull( emailData )) ? emailData : '';
     formEle['comment'].value = (checkUndefNull( commentData )) ? commentData : '';
-    
-    /* console.log('-----------');
-     * console.log(nameData);
-     * console.log(emailData);
-     * console.log(commentData);*/
     
     // submitイベントを無効にする
     // formEle.addEventListener('submit', function (e) {
