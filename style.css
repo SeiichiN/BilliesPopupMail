@@ -22,7 +22,7 @@ img {
 #popup-mail-button {
   position: fixed;
   left: 10px;
-  bottom: 10px;
+  bottom: 60px;
   cursor: pointer;
   width: 60px;
   z-index: 10001;
@@ -37,7 +37,7 @@ img {
 }
 
 #popup-mail-form {
-  position: fixed;
+  position: absolute;
   left: 10px;
   bottom: 10px;
   width: 95%;
@@ -98,6 +98,7 @@ img {
   }
 
   #popup-mail-form {
+    position: fixed;
     left: 20px;
     bottom: 20px;
     width: 400px;
