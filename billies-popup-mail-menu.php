@@ -27,14 +27,16 @@ function billies_popup_mail_admins_page() {
         $mdata['fromAddress'] = !empty($_POST['get_fromAddress']) ? stripslashes($_POST['get_fromAddress']) : "";
 
         update_option('billies_popup_mailconf', $mdata);
+        $okMsg =  '<div style="color:#060">保存しました</div>';
     } else {
         $mdata = get_option('billies_popup_mailconf');
+        $okMsg = '<div>&nbsp;</div>';
     }
 ?>
 <div class="wrap">
     <?php screen_icon(); ?>
     <h2>billies popup mail 設定</h2>
-    
+    <?php echo $okMsg; ?>
     <form action="" method="post">
         <?php wp_nonce_field('billies_action', 'billies_nonce'); ?>
         <p>
