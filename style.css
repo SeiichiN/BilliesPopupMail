@@ -86,8 +86,8 @@ img {
 
 #messageArea {
 	position: fixed;
-	left: 120px;
-	bottom: 10px;
+	left: 100px;
+	bottom: 70px;
 }
 
 @media screen and (min-width: 768px) {
@@ -107,4 +107,7 @@ img {
     z-index: 10002
   }
 
+  #messageArea {
+    bottom: 10px;
+  }
 }
