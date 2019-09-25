@@ -29,6 +29,7 @@ img {
   background-color: transparent;
   padding: 0;
   line-height: 1em;
+  border: none;
 }
 
 .fa-envelope {
