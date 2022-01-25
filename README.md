@@ -39,6 +39,9 @@ mb_internal_encoding('UTF-8');
 そのうえで、
 
 ``` php
+$mail->CharSet = "iso-2022-jp";
+$mail->Encoding = "7bit";
+... (略) ...
 $mail->Subject = mb_encode_mimeheader( $subject );
 ```
 
@@ -67,4 +70,4 @@ https://hhelibex.hatenablog.jp/entry/2017/12/13/000133
 しかし、`mb_internal_encoding('ISO-2022-JP')`とやると、全く
 うまくいかなかった。
 
- <!-- 修正時刻: Tue Jan 25 19:06:55 2022 -->
+ <!-- 修正時刻: Tue Jan 25 19:09:52 2022 -->
