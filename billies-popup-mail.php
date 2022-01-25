@@ -27,6 +27,7 @@ use PHPMailer\PHPMailer\Exception;
 function billies_popup_mail_mymail($subject, $body, $reply) {
 
   // これを設定しないと subjectが文字化けすることがある。
+  mb_language("japanese");
   $original_encoding = mb_internal_encoding();
   mb_internal_encoding("UTF-8");
   
@@ -114,4 +115,4 @@ function billies_popup_mail_add_files () {
 }
 add_action('wp_enqueue_scripts', 'billies_popup_mail_add_files');
 
-// 修正時刻: Tue Jan 25 18:34:43 2022
+// 修正時刻: Tue Jan 25 21:48:35 2022
