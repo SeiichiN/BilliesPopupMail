@@ -3,7 +3,7 @@
  * @wordpress-plugin
  * Plugin Name: Billies Popup Mail
  * Description: This is popup mail form. 
- * Version: 1.1
+ * Version: 1.5
  * Author: Seiichi Nukayama
  * URL: http://www.billies-works.com/
  */
@@ -26,6 +26,10 @@ use PHPMailer\PHPMailer\Exception;
  */
 function billies_popup_mail_mymail($subject, $body, $reply) {
 
+  // これを設定しないと subjectが文字化けすることがある。
+  $original_encoding = mb_internal_encoding();
+  mb_internal_encoding("UTF-8");
+  
   $mdata = get_option('billies_popup_mailconf');
 
   /*
@@ -34,7 +38,6 @@ function billies_popup_mail_mymail($subject, $body, $reply) {
   }
   echo($_SERVER['HTTP_REFERER']), "<br>\n";
    */
-  
 
   $from = $mdata['account'];
   $pass = $mdata['passwd'];
@@ -64,6 +67,7 @@ function billies_popup_mail_mymail($subject, $body, $reply) {
     echo "Mailer Error: {$mail->ErrorInfo}";
     $msg = "メールの送信に失敗しました";
   }
+  mb_internal_encoding( $original_encoding );   // もとにもどす
   return $msg;
 }
 
@@ -110,4 +114,4 @@ function billies_popup_mail_add_files () {
 }
 add_action('wp_enqueue_scripts', 'billies_popup_mail_add_files');
 
-// 修正時刻: Tue Jan 25 17:17:26 2022
+// 修正時刻: Tue Jan 25 18:34:43 2022
