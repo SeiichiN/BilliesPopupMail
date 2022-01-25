@@ -3,7 +3,7 @@
  * @wordpress-plugin
  * Plugin Name: Billies Popup Mail
  * Description: This is popup mail form. 
- * Version: 1.0
+ * Version: 1.1
  * Author: Seiichi Nukayama
  * URL: http://www.billies-works.com/
  */
@@ -12,6 +12,8 @@ require_once('billies-popup-mail-menu.php');
 require_once ('vendor/autoload.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 /**
  * @params: string $subject
@@ -22,7 +24,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  *         boolean TRUE.
  *       
  */
-function billies_popup_mail_gmail($subject, $body, $reply) {
+function billies_popup_mail_mymail($subject, $body, $reply) {
 
   $mdata = get_option('billies_popup_mailconf');
 
@@ -39,21 +41,30 @@ function billies_popup_mail_gmail($subject, $body, $reply) {
   $to = $mdata['toAddress'];
   if (!empty($mdata['fromAddress'])) $reply = $mdata['fromAddress'];
   
-  $mail = new PHPMailer();
-  $mail->isSMTP();
-  $mail->CharSet = 'utf-8';
-  $mail->Host = $mdata['smtpsv'];
-  $mail->Port = $mdata['port'];
-  $mail->SMTPSecure = 'tls';
-  $mail->SMTPAuth = true;
-  $mail->Username = $from;
-  $mail->Password = $pass;
-  $mail->setFrom($from, $mdata['fromName']);
-  $mail->addReplyTo($reply);
-  $mail->addAddress($to);
-  $mail->Subject = $subject;
-  $mail->Body = $body;
-  return $mail->send();
+  try {
+    $mail = new PHPMailer();
+    $mail->isSMTP();
+    $mail->CharSet = "iso-2022-jp";
+    $mail->Encoding = "7bit";
+    $mail->Host = $mdata['smtpsv'];
+    $mail->Port = $mdata['port'];
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->SMTPAuth = true;
+    $mail->Username = $from;
+    $mail->Password = $pass;
+    $mail->setFrom($from, mb_encode_mimeheader( $mdata['fromName']) );
+    $mail->addReplyTo($reply);
+    $mail->addAddress($to);
+    $mail->Subject = mb_encode_mimeheader( $subject );
+    $mail->Body = mb_convert_encoding( $body, "JIS", "UTF-8" );
+    $mail->send();
+    $msg = "メールを送信しました";
+  }
+  catch (Exception $e) {
+    echo "Mailer Error: {$mail->ErrorInfo}";
+    $msg = "メールの送信に失敗しました";
+  }
+  return $msg;
 }
 
 
@@ -83,11 +94,7 @@ if (!empty($_POST['name'])
   $body = $body . "メールアドレス：" . $reply . "\n";
   $body = $body . "コメント：\n" . billies_popup_mail_w($_POST['comment']) . "\n";
 
-  if (billies_popup_mail_gmail($subject, $body, $reply)) {
-	   $msg = 'メールを送信しました';
-  } else {
-	  $msg = 'メールの送信に失敗しました';
-  }
+  $msg = billies_popup_mail_mymail($subject, $body, $reply);
   $msgData = urlencode($msg);
   setcookie('mail_result', $msg, time()+10);
 
@@ -102,3 +109,5 @@ function billies_popup_mail_add_files () {
   wp_localize_script('billies-popup-mail_js', 'myScript', array( 'pluginsUrl' => plugins_url(),));
 }
 add_action('wp_enqueue_scripts', 'billies_popup_mail_add_files');
+
+// 修正時刻: Tue Jan 25 17:17:26 2022
